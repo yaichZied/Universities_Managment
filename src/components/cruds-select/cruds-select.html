@@ -1,0 +1,18 @@
+
+<ion-list>
+    <ion-item-sliding>
+      <ion-item>
+            <ion-label>{{name}}</ion-label>
+            <ion-select [(ngModel)]="selected">
+              <ion-option *ngFor="let element of list" [value]="element">{{element.displayName}}</ion-option>
+            </ion-select>
+
+      </ion-item>
+      <ion-item-options side="right">
+        <button ion-button color="primary" (click)="go()">
+          <ion-icon name="plus" ></ion-icon>
+          Add
+        </button>
+      </ion-item-options>
+    </ion-item-sliding>
+  </ion-list>
