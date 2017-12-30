@@ -25,22 +25,50 @@ export class CrudsSelectComponent implements OnInit{
           }
         });
       }
-      
+      this.api.get('/'+this.name+'/structure').subscribe(data => {
+        if(data&&data.subClasses&&data.subClasses.length)
+        {
+          this.subClasses=data.subClasses;
+          if(!data.abstract)
+          {
+            this.subClasses.push(this.name);
+          }
+        }
+        else
+        {
+          this.subClasses=false;
+        }
+        
+      });
     });
   }
 
   @Input() private name;
   @Input() private selected;
   private list;
-  
+  private subClasses;
+  private selectedSubClasse;
   constructor(public navCtrl: NavController, public navParams: NavParams, public api : ApiProvider) {
    
   }
   go()
   {
-    this.navCtrl.push('CrudsEditPage', {
-      name: this.name
-  });
+    if(this.subClasses&&this.subClasses.length)
+    {
+      if(this.selectedSubClasse)
+      {
+        this.navCtrl.push('CrudsEditPage', {
+          name: this.selectedSubClasse
+        });
+      }
+    }
+    else
+    {
+      this.navCtrl.push('CrudsEditPage', {
+        name: this.name
+      });
+    }
+    
   }
 
 }

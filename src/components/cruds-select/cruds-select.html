@@ -9,10 +9,14 @@
 
       </ion-item>
       <ion-item-options side="right">
-        <button ion-button color="primary" (click)="go()">
-          <ion-icon name="plus" ></ion-icon>
+        <button *ngIf="!subClasses||!subClasses.length" ion-button color="primary" (click)="go()">
+          <ion-icon name="add" ></ion-icon>
           Add
         </button>
+          <ion-label  *ngIf="subClasses&&subClasses.length">Add</ion-label>
+          <ion-select [(ngModel)]="selectedSubClasse"  *ngIf="subClasses&&subClasses.length" (ionChange)="go()" >
+              <ion-option *ngFor="let element of subClasses" [value]="element">{{element}}</ion-option>
+          </ion-select>
       </ion-item-options>
     </ion-item-sliding>
   </ion-list>

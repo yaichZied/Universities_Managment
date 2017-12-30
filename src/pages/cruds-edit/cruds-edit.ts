@@ -2,12 +2,6 @@ import { CrudsSelectComponent } from './../../components/cruds-select/cruds-sele
 import { ApiProvider } from './../../providers/api/api';
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, IonicModule } from 'ionic-angular';
-/**
- * Generated class for the CrudsEditPage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
- */
 
 @IonicPage()
 @Component({
@@ -29,11 +23,9 @@ export class CrudsEditPage {
     }
     
   }
-
   ionViewDidLoad() {
     this.api.get('/'+this.name+'/structure').subscribe(data => {
       this.schema=data;
-      
       this.schema.fields.forEach(element => {
         if(!this.entity||!this.entity[element.name])
         {
@@ -49,7 +41,22 @@ export class CrudsEditPage {
       });
     });
   }
-
+  save()
+  {
+    if(this.edit)
+    {
+      this.api.put('/'+this.name+'/'+this.entity.id,this.entity).subscribe(data => {
+        this.navCtrl.pop();
+      });
+    }
+    else
+    {
+      this.api.put('/'+this.name+'/',this.entity).subscribe(data => {
+        this.navCtrl.pop();
+      });
+    }
+  }
+  
   private name;
   private schema;
   private entity;

@@ -1,26 +1,33 @@
-<ion-header>
-  <ion-navbar>
-      <ion-title *ngIf="edit">Edit : {{name}}</ion-title>
-      <ion-title *ngIf="!edit">Add : {{name}}</ion-title>
-  </ion-navbar>
-</ion-header>
 
+<ion-header>
+    <ion-navbar>
+        <ion-title *ngIf="edit">Edit : {{name}}</ion-title>
+        <ion-title *ngIf="!edit">Add : {{name}}</ion-title>
+    </ion-navbar>
+</ion-header>        
 <ion-content padding >
-  <ng-container *ngIf="schema">
-      <ng-container  *ngFor="let field of schema.fields">
-            <ion-list *ngIf="!field.id&&!field.manyToOne&&!field.manyToMany&&!field.oneToMany&&!field.oneToOne&&field.type!='date'">
-                    <ion-input type="text" placeholder="{{field.name}}" [(ngModel)]="entity[field.name]"></ion-input>
+    <ng-container *ngIf="schema">
+        <ng-container  *ngFor="let field of schema.fields">
+            <ion-list *ngIf="!field.id&&!field.manyToOne&&!field.manyToMany&&!field.oneToMany&&!field.oneToOne&&field.type=='string'">
+                <ion-input type="text" clearInput  placeholder="{{field.name}}" [(ngModel)]="entity[field.name]"></ion-input>
+            </ion-list>
+            <ion-list *ngIf="!field.id&&!field.manyToOne&&!field.manyToMany&&!field.oneToMany&&!field.oneToOne&&(field.type=='long' || field.type=='integer'|| field.type=='double'|| field.type=='float')">
+                <ion-input type="number"  placeholder="{{field.name}}" [(ngModel)]="entity[field.name]"></ion-input>
             </ion-list>
             <ion-list *ngIf="!field.id&&!field.manyToOne&&!field.manyToMany&&!field.oneToMany&&!field.oneToOne&&field.type=='date'">
-                    <ion-item>
-                        <ion-label>{{field.name}}</ion-label>
-                        <ion-datetime displayFormat="h:mm A" pickerFormat="h mm A" [(ngModel)]="entity[field.name]"></ion-datetime>
-                    </ion-item>
+                <ion-item>
+                    <ion-label>{{field.name}}</ion-label>
+                    <ion-datetime displayFormat="MM/DD/YYYY" [(ngModel)]="entity[field.name]"></ion-datetime>
+                </ion-item>
             </ion-list>
-          <ion-list *ngIf="field.manyToOne">
-              <cruds-select [name]="field.type"></cruds-select>
-          </ion-list>
-      </ng-container>
-  </ng-container>
+            <ion-list *ngIf="field.manyToOne || field.oneToOne">
+                <cruds-select [name]="field.type"></cruds-select>
+            </ion-list>
+
+        </ng-container>
+        <ion-list >
+            <button ion-button full (click)="save()">Save</button>
+        </ion-list>
+        
+    </ng-container>
 </ion-content>
-  

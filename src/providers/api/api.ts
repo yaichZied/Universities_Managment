@@ -33,7 +33,7 @@ export class ApiProvider {
   {
     return this.http.put(this.api_url+url, data,this.getHeaders());
   }
-  delete(url,data): Observable<any>
+  delete(url): Observable<any>
   {
     return this.http.delete(this.api_url+url,this.getHeaders());
   }

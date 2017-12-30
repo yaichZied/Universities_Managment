@@ -23,8 +23,8 @@ export class ContactPage {
   }
   go()
   {
-    this.navCtrl.push('CrudsEditPage', {
-      name: 'course'
+    this.navCtrl.push('CrudsListPage', {
+      name: 'block'
   });
   }
 }

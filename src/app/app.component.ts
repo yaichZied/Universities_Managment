@@ -12,7 +12,7 @@ export class MyApp {
   constructor(platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen,private authProvider: AuthProvider) {
     platform.ready().then(() => {
       this.authProvider.me().toPromise().then(user=>{
-        this.rootPage="TabsPage";
+        this.rootPage="ContactPage";
         statusBar.styleDefault();
         splashScreen.hide();
       }).catch(error=>{
