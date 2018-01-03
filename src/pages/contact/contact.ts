@@ -21,10 +21,10 @@ export class ContactPage {
   ionViewDidLoad() {
     console.log('ionViewDidLoad ContactPage');
   }
-  go()
+  go(name)
   {
     this.navCtrl.push('CrudsListPage', {
-      name: 'block'
+      name: name
   });
   }
 }

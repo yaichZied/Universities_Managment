@@ -1,6 +1,6 @@
 import { ComponentsModule } from './../components/components.module';
 import { CrudsSelectComponent } from './../components/cruds-select/cruds-select';
-import { NgModule, ErrorHandler } from '@angular/core';
+import { NgModule, ErrorHandler, NO_ERRORS_SCHEMA } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
 import { MyApp } from './app.component';
@@ -21,6 +21,7 @@ import { ApiProvider } from '../providers/api/api';
     ComponentsModule,
     IonicModule.forRoot(MyApp),
     HttpClientModule,
+
   ],
   bootstrap: [IonicApp],
   entryComponents: [

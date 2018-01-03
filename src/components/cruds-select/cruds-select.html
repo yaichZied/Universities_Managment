@@ -1,9 +1,9 @@
 
 <ion-list>
-    <ion-item-sliding>
-      <ion-item>
+    <ion-item-sliding #slidingItem>
+      <ion-item  #item (click)="open(slidingItem, item)">
             <ion-label>{{name}}</ion-label>
-            <ion-select [(ngModel)]="selected">
+            <ion-select [(ngModel)]="selected" >
               <ion-option *ngFor="let element of list" [value]="element">{{element.displayName}}</ion-option>
             </ion-select>
 

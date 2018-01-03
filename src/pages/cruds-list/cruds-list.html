@@ -15,11 +15,11 @@
 
 <ion-content padding>
   <ion-list *ngFor="let element of list">
-    <ion-item-sliding>
-      <ion-item>
+    <ion-item-sliding #slidingItem  >
+      <ion-item #item (click)="open(slidingItem, item)">
         {{element.displayName}}
       </ion-item>
-      <ion-item-options side="right">
+      <ion-item-options side="right" (click)="close(slidingItem,item)">
         <button ion-button color="secondary" (click)="details(element.id)">
           <ion-icon name="clipboard" ></ion-icon>Details
         </button>

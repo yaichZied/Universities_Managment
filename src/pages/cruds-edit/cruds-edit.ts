@@ -1,6 +1,6 @@
 import { CrudsSelectComponent } from './../../components/cruds-select/cruds-select';
 import { ApiProvider } from './../../providers/api/api';
-import { Component } from '@angular/core';
+import { Component, ViewChild, ViewChildren } from '@angular/core';
 import { IonicPage, NavController, NavParams, IonicModule } from 'ionic-angular';
 
 @IonicPage()
@@ -35,11 +35,52 @@ export class CrudsEditPage {
           }
           else
           {
-            this.entity[element.name]="";
+            if(element.type=='boolean')
+            {
+              this.entity[element.name]=true;
+            }
+            else
+            {
+              this.entity[element.name]="";
+            }
+            //this.entity[element.name]="";
           }
         }
       });
+      this.openAll();
     });
+  }
+  ionViewDidEnter()
+  {
+    this.refreshAll();
+  }
+  @ViewChildren(CrudsSelectComponent) items;
+  public openAll() {
+    if(this.items&&this.items.first)
+    {
+      this.items.first.openAll()
+    }
+    else
+    {
+      setTimeout(()=>{
+        this.openAll();
+      },100)
+    }
+  }
+  public refreshAll() {
+    console.log("refreshing")
+    if(this.items)
+    {
+      console.log("refreshing enter")
+      this.items.forEach(element => {
+        console.log("refreshing item")
+        element.refresh();
+      });
+    }
+  }
+  eval( value ){
+    let entity = this.entity;
+    return eval(value);
   }
   save()
   {

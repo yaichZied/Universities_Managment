@@ -1,6 +1,6 @@
 import { ApiProvider } from './../../providers/api/api';
-import { NavController, NavParams, IonicModule } from 'ionic-angular';
-import { Component, OnInit, Input } from '@angular/core';
+import { NavController, NavParams, IonicModule, ItemSliding, Item } from 'ionic-angular';
+import { Component, OnInit, Input, ViewChild } from '@angular/core';
 
 /**
  * Generated class for the CrudsSelectComponent component.
@@ -13,7 +13,12 @@ import { Component, OnInit, Input } from '@angular/core';
   templateUrl: 'cruds-select.html'
 })
 export class CrudsSelectComponent implements OnInit{
+  
   ngOnInit(): void {
+    this.refresh();
+  }
+  refresh(): void {
+    const __this=this
     this.api.get('/'+this.name+'/').subscribe(data => {
       this.list=data;
       if(this.selected&&this.selected.id)
@@ -41,6 +46,7 @@ export class CrudsSelectComponent implements OnInit{
         
       });
     });
+    this.close(this.slidingItem,this.item);
   }
 
   @Input() private name;
@@ -69,6 +75,40 @@ export class CrudsSelectComponent implements OnInit{
       });
     }
     
+  }
+
+  public open(itemSlide: ItemSliding, ite: Item) {
+    itemSlide.setElementClass("active-sliding", true);
+    itemSlide.setElementClass("active-slide", true);
+    itemSlide.setElementClass("active-options-right", true);
+    ite.setElementStyle("transform", "translate3d(-90px, 0px, 0px)");  
+  }
+  public close(item: ItemSliding, ite: Item) {
+    
+    ite.setElementStyle("transform", "translate3d(-90px, 0px, 0px) reverse"); 
+    setTimeout(()=>{
+      item.setElementClass("active-slide", false);
+      item.setElementClass("active-slide", false);
+      item.setElementClass("active-options-right", false);
+      item.close();
+    },500);
+  }
+  @ViewChild(ItemSliding) slidingItem;
+  @ViewChild(Item) item;
+  public openAll() {
+    if(this.item&&this.slidingItem)
+    {
+      this.open(this.slidingItem,this.item);
+      setTimeout(()=>{
+        this.close(this.slidingItem,this.item);
+      },1000)
+    }
+    else
+    {
+      setTimeout(()=>{
+        this.openAll();
+      },100)
+    }
   }
 
 }

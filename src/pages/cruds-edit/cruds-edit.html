@@ -11,6 +11,14 @@
             <ion-list *ngIf="!field.id&&!field.manyToOne&&!field.manyToMany&&!field.oneToMany&&!field.oneToOne&&field.type=='string'">
                 <ion-input type="text" clearInput  placeholder="{{field.name}}" [(ngModel)]="entity[field.name]"></ion-input>
             </ion-list>
+            <ng-container  *ngIf="!field.id&&!field.manyToOne&&!field.manyToMany&&!field.oneToMany&&!field.oneToOne&&field.type=='boolean' ">
+            <ng-container *ngIf="!field.if || (eval(field.if))">
+                <ion-list>
+                    <ion-label>{{field.name}}</ion-label>
+                    <ion-toggle [(ngModel)]="entity[field.name]"></ion-toggle>
+                </ion-list>
+            </ng-container>
+            </ng-container>
             <ion-list *ngIf="!field.id&&!field.manyToOne&&!field.manyToMany&&!field.oneToMany&&!field.oneToOne&&(field.type=='long' || field.type=='integer'|| field.type=='double'|| field.type=='float')">
                 <ion-input type="number"  placeholder="{{field.name}}" [(ngModel)]="entity[field.name]"></ion-input>
             </ion-list>

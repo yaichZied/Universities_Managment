@@ -4,9 +4,9 @@ import { NgModule } from '@angular/core';
 import { CrudsSelectComponent } from './cruds-select/cruds-select';
 @NgModule({
 	declarations: [
-    CrudsSelectComponent],
+    CrudsSelectComponent,],
 	imports: [IonicPageModule.forChild(CrudsSelectComponent)],
 	exports: [
-    CrudsSelectComponent]
+    CrudsSelectComponent,]
 })
 export class ComponentsModule {}
