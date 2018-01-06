@@ -29,7 +29,7 @@
                 </ion-item>
             </ion-list>
             <ion-list *ngIf="field.manyToOne || field.oneToOne">
-                <cruds-select [name]="field.type"></cruds-select>
+                <cruds-select [name]="field.type" [selected]="entity[field.name]" ></cruds-select>
             </ion-list>
 
         </ng-container>

@@ -3,8 +3,8 @@
     <ion-item-sliding #slidingItem>
       <ion-item  #item (click)="open(slidingItem, item)">
             <ion-label>{{name}}</ion-label>
-            <ion-select [(ngModel)]="selected" >
-              <ion-option *ngFor="let element of list" [value]="element">{{element.displayName}}</ion-option>
+            <ion-select [(ngModel)]="selected" [compareWith]="compareFn">
+              <ion-option *ngFor="let element of list"  [value]="element">{{element.displayName}}</ion-option>
             </ion-select>
 
       </ion-item>

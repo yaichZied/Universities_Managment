@@ -45,6 +45,14 @@ export class CrudsEditPage {
             }
             //this.entity[element.name]="";
           }
+        }else{
+          if(this.entity&&this.entity[element.name])
+          {
+            if(element.manyToOne)
+            {
+              this.setItem(element.name);
+            }
+          }
         }
       });
       this.openAll();
@@ -68,22 +76,52 @@ export class CrudsEditPage {
     }
   }
   public refreshAll() {
-    console.log("refreshing")
     if(this.items)
     {
-      console.log("refreshing enter")
       this.items.forEach(element => {
-        console.log("refreshing item")
         element.refresh();
       });
     }
   }
+  selectChange(event) {
+    console.log(event)
+    this.entity[event.name]=event.value
+  }
+public setItem(name) {
+  var __this = this;
+  if(this.items&&this.items.length)
+  {
+    this.items.forEach(function(item) {
+      if(item.name&&item.name==name){
+        item.setSelected(__this.entity[name]);
+      }
+    });
+  }
+  
+  else
+  {
+
+    console.log('setting later ' + name);
+    setTimeout(()=>{
+      this.setItem(name);
+    },100)
+  }
+}
   eval( value ){
     let entity = this.entity;
     return eval(value);
   }
   save()
   {
+    if(this.items&&this.items.length)
+    {
+      var __this=this;
+      this.items.forEach(function(item) {
+        if(item.name){
+          __this.entity[item.name]=item.selected.id?{id : item.selected.id}:null
+        }
+      });
+    }
     if(this.edit)
     {
       this.api.put('/'+this.name+'/'+this.entity.id,this.entity).subscribe(data => {

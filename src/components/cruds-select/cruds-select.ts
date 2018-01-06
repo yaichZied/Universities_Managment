@@ -1,6 +1,6 @@
 import { ApiProvider } from './../../providers/api/api';
 import { NavController, NavParams, IonicModule, ItemSliding, Item } from 'ionic-angular';
-import { Component, OnInit, Input, ViewChild } from '@angular/core';
+import { Component, OnInit, Input, ViewChild, NgZone ,Output } from '@angular/core';
 
 /**
  * Generated class for the CrudsSelectComponent component.
@@ -19,10 +19,12 @@ export class CrudsSelectComponent implements OnInit{
   }
   refresh(): void {
     const __this=this
+    this.selectedSubClasse=null;
     this.api.get('/'+this.name+'/').subscribe(data => {
       this.list=data;
       if(this.selected&&this.selected.id)
       {
+
         this.list.forEach(element => {
           if(element.id==this.selected.id)
           {
@@ -49,13 +51,21 @@ export class CrudsSelectComponent implements OnInit{
     this.close(this.slidingItem,this.item);
   }
 
-  @Input() private name;
-  @Input() private selected;
+  @Input() public name;
+  @Input() public selected;
   private list;
   private subClasses;
   private selectedSubClasse;
-  constructor(public navCtrl: NavController, public navParams: NavParams, public api : ApiProvider) {
+  constructor(public navCtrl: NavController, public zone: NgZone,public navParams: NavParams, public api : ApiProvider) {
    
+  }
+  public setSelected(selected){
+    this.zone.run(()=>{
+      this.selected=selected;
+    })
+  }
+  compareFn(e1: any, e2: any): boolean {
+    return e1 && e2 ? e1.id === e2.id : false;
   }
   go()
   {
@@ -98,7 +108,9 @@ export class CrudsSelectComponent implements OnInit{
   public openAll() {
     if(this.item&&this.slidingItem)
     {
+      
       this.open(this.slidingItem,this.item);
+
       setTimeout(()=>{
         this.close(this.slidingItem,this.item);
       },1000)
@@ -110,5 +122,4 @@ export class CrudsSelectComponent implements OnInit{
       },100)
     }
   }
-
 }

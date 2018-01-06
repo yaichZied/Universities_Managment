@@ -17,7 +17,6 @@ export class ApiProvider {
   }
   private getHeaders():any
   {
-    console.log(localStorage.getItem("token"));
     return {headers : {Authorization : localStorage.getItem("token")}};
   }
   get(url): Observable<any>
