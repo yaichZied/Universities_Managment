@@ -20,10 +20,10 @@ export class CrudsListPage {
   constructor(public loadingCtrl: LoadingController ,private zone : NgZone,public renderer: Renderer,public element: ElementRef,public navCtrl: NavController, public navParams: NavParams,public api : ApiProvider,public toastCtrl: ToastController) {
     this.name=navParams.get("name");
 }
-  
+
   ionViewDidLoad() {
     this.refresh();
-    
+
   }
   refresh()
   {
@@ -38,25 +38,25 @@ export class CrudsListPage {
       this.openAll();
     });
   }
-  
+
   ionViewDidEnter() {
-    this.openAll();
-      
+    this.refresh();
+
   }
   public name;
   public list;
   public open(itemSlide: ItemSliding, ite: Item) {
-    
+
       itemSlide.setElementClass("active-sliding", true);
       itemSlide.setElementClass("active-slide", true);
       itemSlide.setElementClass("active-options-right", true);
-      ite.setElementStyle("transform", "translate3d(-214px, 0px, 0px)");  
+      ite.setElementStyle("transform", "translate3d(-214px, 0px, 0px)");
   }
   public close(item: ItemSliding, ite: Item) {
     item.close();
-    ite.setElementStyle("transform", "translate3d(-214px, 0px, 0px) reverse"); 
+    ite.setElementStyle("transform", "translate3d(-214px, 0px, 0px) reverse");
     setTimeout(()=>{
-      
+
     item.setElementClass("active-slide", false);
     item.setElementClass("active-slide", false);
     item.setElementClass("active-options-right", false);
@@ -93,7 +93,7 @@ export class CrudsListPage {
           showCloseButton: true,
           position: 'bottom'
         });
-        toast.present(toast);  
+        toast.present(toast);
       }
       else{
         let toast = this.toastCtrl.create({
@@ -104,7 +104,7 @@ export class CrudsListPage {
           showCloseButton: true,
           position: 'bottom'
         });
-        toast.present(toast);  
+        toast.present(toast);
       }
       this.refresh();
     });
@@ -114,7 +114,7 @@ export class CrudsListPage {
     this.api.get('/'+this.name+'/structure').subscribe(data => {
       if(data.subClasses&&data.subClasses.length)
       {
-        
+
       }
       else
       {
@@ -122,10 +122,10 @@ export class CrudsListPage {
           name: this.name
         });
       }
-      
-    }); 
+
+    });
   }
-  
+
   edit(id)
   {
     this.api.get('/'+this.name+'/'+id).subscribe(data => {
@@ -134,7 +134,7 @@ export class CrudsListPage {
         entity : data
       });
     });
-    
+
   }
   details(id)
   {
