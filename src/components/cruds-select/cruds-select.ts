@@ -1,6 +1,7 @@
-import { ApiProvider } from './../../providers/api/api';
-import { NavController, NavParams, IonicModule, ItemSliding, Item } from 'ionic-angular';
-import { Component, OnInit, Input, ViewChild, NgZone ,Output } from '@angular/core';
+import {ApiProvider} from './../../providers/api/api';
+import {Item, ItemSliding, NavController, NavParams} from 'ionic-angular';
+import {Component, Input, NgZone, OnInit, ViewChild} from '@angular/core';
+import {NavigationProvider} from "../../providers/navigation/navigation";
 
 /**
  * Generated class for the CrudsSelectComponent component.
@@ -13,18 +14,15 @@ import { Component, OnInit, Input, ViewChild, NgZone ,Output } from '@angular/co
   templateUrl: 'cruds-select.html'
 })
 export class CrudsSelectComponent implements OnInit{
-  
+
   ngOnInit(): void {
     this.refresh();
   }
   refresh(): void {
-    const __this=this
-    this.selectedSubClasse=null;
-    this.api.get('/'+this.name+'/').subscribe(data => {
+    this.api.list(this.name).then(data => {
       this.list=data;
       if(this.selected&&this.selected.id)
       {
-
         this.list.forEach(element => {
           if(element.id==this.selected.id)
           {
@@ -32,21 +30,9 @@ export class CrudsSelectComponent implements OnInit{
           }
         });
       }
-      this.api.get('/'+this.name+'/structure').subscribe(data => {
-        if(data&&data.subClasses&&data.subClasses.length)
-        {
-          this.subClasses=data.subClasses;
-          if(!data.abstract)
-          {
-            this.subClasses.push(this.name);
-          }
-        }
-        else
-        {
-          this.subClasses=false;
-        }
-        
-      });
+    });
+    this.api.structure(this.name).then(data => {
+      this.canAdd=data.canAdd;
     });
     this.close(this.slidingItem,this.item);
   }
@@ -54,10 +40,13 @@ export class CrudsSelectComponent implements OnInit{
   @Input() public name;
   @Input() public selected;
   private list;
-  private subClasses;
-  private selectedSubClasse;
-  constructor(public navCtrl: NavController, public zone: NgZone,public navParams: NavParams, public api : ApiProvider) {
-   
+  private canAdd=false;
+  constructor(public navigation: NavigationProvider,
+              public navCtrl:NavController,
+              public zone: NgZone,
+              public navParams: NavParams,
+              public api : ApiProvider) {
+
   }
   public setSelected(selected){
     this.zone.run(()=>{
@@ -69,33 +58,18 @@ export class CrudsSelectComponent implements OnInit{
   }
   go()
   {
-    if(this.subClasses&&this.subClasses.length)
-    {
-      if(this.selectedSubClasse)
-      {
-        this.navCtrl.push('CrudsEditPage', {
-          name: this.selectedSubClasse
-        });
-      }
-    }
-    else
-    {
-      this.navCtrl.push('CrudsEditPage', {
-        name: this.name
-      });
-    }
-    
+    this.navigation.add(this.name,this.navCtrl)
   }
 
   public open(itemSlide: ItemSliding, ite: Item) {
     itemSlide.setElementClass("active-sliding", true);
     itemSlide.setElementClass("active-slide", true);
     itemSlide.setElementClass("active-options-right", true);
-    ite.setElementStyle("transform", "translate3d(-90px, 0px, 0px)");  
+    ite.setElementStyle("transform", "translate3d(-90px, 0px, 0px)");
   }
   public close(item: ItemSliding, ite: Item) {
-    
-    ite.setElementStyle("transform", "translate3d(-90px, 0px, 0px) reverse"); 
+
+    ite.setElementStyle("transform", "translate3d(-90px, 0px, 0px) reverse");
     setTimeout(()=>{
       item.setElementClass("active-slide", false);
       item.setElementClass("active-slide", false);
@@ -108,7 +82,7 @@ export class CrudsSelectComponent implements OnInit{
   public openAll() {
     if(this.item&&this.slidingItem)
     {
-      
+
       this.open(this.slidingItem,this.item);
 
       setTimeout(()=>{

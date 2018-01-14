@@ -18,21 +18,23 @@ api_url=environment.site_url+environment.jwt_url;
     obs.subscribe(data => {
       localStorage.setItem("token", data["token"]);
       localStorage.setItem("user",data["user"]);
-      
+
     })
     return obs;
   }
 
-  logout() : void {
+  logout(navCtrl) : void {
+    console.log("logout")
     localStorage.clear();
+    navCtrl.setRoot('HomePage').then();
   }
 
   token() : string {
     return localStorage.getItem("token");
   }
-  me() : Observable<any> {
+  me() : Promise<any> {
     let obs =  this.api.get('/me');
-    obs.toPromise().catch(error => {localStorage.clear()})
+    obs.catch(error => {localStorage.clear()})
     return obs;
   }
 }

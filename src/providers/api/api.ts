@@ -19,22 +19,50 @@ export class ApiProvider {
   {
     return {headers : {Authorization : localStorage.getItem("token")}};
   }
-  get(url): Observable<any>
+  get(url): Promise<any>
   {
-    
-    return this.http.get(this.api_url+url,this.getHeaders());
+    return this.http.get(this.api_url+url,this.getHeaders()).toPromise();
   }
-  post(url,data): Observable<any>
+  list(name): Promise<any>
   {
-    return this.http.post(this.api_url+url, data,this.getHeaders());
+    return this.get('/'+name);
   }
-  put(url,data): Observable<any>
+  default(name): Promise<any>
   {
-    return this.http.put(this.api_url+url, data,this.getHeaders());
+    return this.get('/'+name+'/default');
   }
-  delete(url): Observable<any>
+  getEntity(name,id): Promise<any>
   {
-    return this.http.delete(this.api_url+url,this.getHeaders());
+    return this.get('/'+name+'/'+id);
   }
 
+  structure(name): Promise<any>
+  {
+    return this.get('/'+name+'/structure');
+  }
+  post(url,data): Promise<any>
+  {
+    return this.http.post(this.api_url+url, data,this.getHeaders()).toPromise();
+  }
+  put(url,data): Promise<any>
+  {
+    return this.http.put(this.api_url+url, data,this.getHeaders()).toPromise();
+  }
+  add(name,entity): Promise<any>
+  {
+    return this.put('/'+name, entity);
+  }
+
+  update(name,id,entity): Promise<any>
+  {
+    return this.put('/'+name+'/'+id, entity);
+  }
+  delete(url): Promise<any>
+  {
+    return this.http.delete(this.api_url+url,this.getHeaders()).toPromise();
+  }
+  remove(name,id): Promise<any>
+  {
+    return this.delete('/'+name+'/'+id);
+  }
 }

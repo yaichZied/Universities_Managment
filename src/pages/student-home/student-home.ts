@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 
 /**
- * Generated class for the BlockDetailsPage page.
+ * Generated class for the StudentHomePage page.
  *
  * See https://ionicframework.com/docs/components/#navigation for more info on
  * Ionic pages and navigation.
@@ -10,19 +10,16 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 
 @IonicPage()
 @Component({
-  selector: 'page-block-details',
-  templateUrl: 'block-details.html',
+  selector: 'page-student-home',
+  templateUrl: 'student-home.html',
 })
-export class BlockDetailsPage {
-  block;
+export class StudentHomePage {
+
   constructor(public navCtrl: NavController, public navParams: NavParams) {
-    this.block = this.navParams.get("block");
-    console.log(this.block);
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad BlockDetailsPage');
+    console.log('ionViewDidLoad StudentHomePage');
   }
-
 
 }

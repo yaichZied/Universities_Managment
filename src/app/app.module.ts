@@ -12,6 +12,7 @@ import { AuthProvider } from '../providers/auth/auth';
 import { BlockProvider } from '../providers/block/block';
 import { HttpClientModule } from '@angular/common/http';
 import { ApiProvider } from '../providers/api/api';
+import { NavigationProvider } from '../providers/navigation/navigation';
 @NgModule({
   declarations: [
     MyApp,
@@ -21,7 +22,6 @@ import { ApiProvider } from '../providers/api/api';
     ComponentsModule,
     IonicModule.forRoot(MyApp),
     HttpClientModule,
-
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -33,7 +33,8 @@ import { ApiProvider } from '../providers/api/api';
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     AuthProvider,
     BlockProvider,
-    ApiProvider
+    ApiProvider,
+    NavigationProvider
   ]
 })
 export class AppModule {}

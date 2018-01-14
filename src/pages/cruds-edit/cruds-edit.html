@@ -4,9 +4,9 @@
         <ion-title *ngIf="edit">Edit : {{name}}</ion-title>
         <ion-title *ngIf="!edit">Add : {{name}}</ion-title>
     </ion-navbar>
-</ion-header>        
+</ion-header>
 <ion-content padding >
-    <ng-container *ngIf="schema">
+    <ng-container *ngIf="schema&&entity">
         <ng-container  *ngFor="let field of schema.fields">
             <ion-list *ngIf="!field.id&&!field.manyToOne&&!field.manyToMany&&!field.oneToMany&&!field.oneToOne&&field.type=='string'">
                 <ion-input type="text" clearInput  placeholder="{{field.name}}" [(ngModel)]="entity[field.name]"></ion-input>
@@ -36,6 +36,6 @@
         <ion-list >
             <button ion-button full (click)="save()">Save</button>
         </ion-list>
-        
+
     </ng-container>
 </ion-content>

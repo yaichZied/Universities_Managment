@@ -20,13 +20,13 @@
         {{element.displayName}}
       </ion-item>
       <ion-item-options side="right" (click)="close(slidingItem,item)">
-        <button ion-button color="secondary" (click)="details(element.id)">
+        <button ion-button color="secondary" (click)="detailsS(element.id)">
           <ion-icon name="clipboard" ></ion-icon>Details
         </button>
-        <button ion-button color="primary" (click)="edit(element.id)">
+        <button ion-button color="primary" (click)="editS(element.id)">
           <ion-icon name="md-create" ></ion-icon>Edit
         </button>
-        <button ion-button color="danger" (click)="delete(element.id)">
+        <button ion-button color="danger" (click)="deleteS(element.id)">
           <ion-icon name="trash" ></ion-icon>Delete
         </button>
       </ion-item-options>
@@ -35,7 +35,7 @@
   <ion-fab right bottom>
       <button ion-fab color="light"><ion-icon name="add" ></ion-icon></button>
       <ion-fab-list side="left">
-        <button ion-fab (click)="add()"><ion-icon name="add"></ion-icon></button>
+        <button ion-fab (click)="addS()"><ion-icon name="add"></ion-icon></button>
         <button ion-fab ><ion-icon name="search"></ion-icon></button>
       </ion-fab-list>
     </ion-fab>

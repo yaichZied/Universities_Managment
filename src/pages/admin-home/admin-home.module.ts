@@ -1,13 +1,13 @@
 import { NgModule } from '@angular/core';
 import { IonicPageModule } from 'ionic-angular';
-import { BlockPage } from './block';
+import { AdminHomePage } from './admin-home';
 
 @NgModule({
   declarations: [
-    BlockPage,
+    AdminHomePage,
   ],
   imports: [
-    IonicPageModule.forChild(BlockPage),
+    IonicPageModule.forChild(AdminHomePage),
   ],
 })
-export class BlockPageModule {}
+export class AdminHomePageModule {}

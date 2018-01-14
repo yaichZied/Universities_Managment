@@ -1,7 +1,8 @@
 import { CrudsSelectComponent } from './../../components/cruds-select/cruds-select';
 import { ApiProvider } from './../../providers/api/api';
-import { Component, ViewChild, ViewChildren } from '@angular/core';
-import { IonicPage, NavController, NavParams, IonicModule } from 'ionic-angular';
+import { Component, ViewChildren } from '@angular/core';
+import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import {NavigationProvider} from "../../providers/navigation/navigation";
 
 @IonicPage()
 @Component({
@@ -9,60 +10,70 @@ import { IonicPage, NavController, NavParams, IonicModule } from 'ionic-angular'
   templateUrl: 'cruds-edit.html',
 })
 export class CrudsEditPage {
+  private name;
+  private schema;
+  private entity;
+  private edit;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public api : ApiProvider) {
+  @ViewChildren(CrudsSelectComponent) items;
+  constructor(public navigation: NavigationProvider,
+              public navParams: NavParams,
+              public api : ApiProvider,
+              public navCtrl:NavController) {
     this.name=navParams.get("name");
     this.entity=navParams.get("entity");
     if(this.entity&&this.entity.id)
     {
       this.edit = true;
+      if(this.entity.className)
+      {
+        this.name=this.entity.className;
+      }
+      this.refresh();
     }
     else{
-      this.entity={};
       this.edit=false;
+      this.api.default(this.name)
+        .then(data => {
+          this.entity = data;
+          this.refresh();
+        });
     }
-    
+
   }
-  ionViewDidLoad() {
-    this.api.get('/'+this.name+'/structure').subscribe(data => {
-      this.schema=data;
-      this.schema.fields.forEach(element => {
-        if(!this.entity||!this.entity[element.name])
-        {
+  refresh(){
+    this.api.structure(this.name)
+      .then(data => {
+        this.schema=data;
+        this.schema.fields.forEach(element => {
           if(element.manyToOne)
           {
-            this.entity[element.name]=null;
+            this.setItem(element.name);
           }
-          else
+          if(element.type=='date')
           {
-            if(element.type=='boolean')
-            {
-              this.entity[element.name]=true;
-            }
-            else
-            {
-              this.entity[element.name]="";
-            }
-            //this.entity[element.name]="";
-          }
-        }else{
-          if(this.entity&&this.entity[element.name])
-          {
-            if(element.manyToOne)
-            {
-              this.setItem(element.name);
+            let d =new Date(this.entity[element.name])
+            console.log(this.entity[element.name])
+            if(d.getDate()){
+              this.entity[element.name]=d.getFullYear()
+                +'-'+this.n(d.getMonth()+1)
+                +'-'+this.n(d.getDate());
             }
           }
-        }
+        });
+        this.openAll();
       });
-      this.openAll();
-    });
   }
+
+  n(n){
+    return n > 9 ? "" + n: "0" + n;
+  }
+
   ionViewDidEnter()
   {
-    this.refreshAll();
+    this.refresh();
+    this.refreshSelects();
   }
-  @ViewChildren(CrudsSelectComponent) items;
   public openAll() {
     if(this.items&&this.items.first)
     {
@@ -75,7 +86,7 @@ export class CrudsEditPage {
       },100)
     }
   }
-  public refreshAll() {
+  public refreshSelects() {
     if(this.items)
     {
       this.items.forEach(element => {
@@ -87,26 +98,24 @@ export class CrudsEditPage {
     console.log(event)
     this.entity[event.name]=event.value
   }
-public setItem(name) {
-  var __this = this;
-  if(this.items&&this.items.length)
-  {
-    this.items.forEach(function(item) {
-      if(item.name&&item.name==name){
-        item.setSelected(__this.entity[name]);
-      }
-    });
-  }
-  
-  else
-  {
+  public setItem(name) {
+    var __this = this;
+    if(this.items&&this.items.length)
+    {
+      this.items.forEach(function(item) {
+        if(item.name&&item.name==name){
+          item.setSelected(__this.entity[name]);
+        }
+      });
+    }
 
-    console.log('setting later ' + name);
-    setTimeout(()=>{
-      this.setItem(name);
-    },100)
+    else
+    {
+      setTimeout(()=>{
+        this.setItem(name);
+      },100)
+    }
   }
-}
   eval( value ){
     let entity = this.entity;
     return eval(value);
@@ -124,21 +133,25 @@ public setItem(name) {
     }
     if(this.edit)
     {
-      this.api.put('/'+this.name+'/'+this.entity.id,this.entity).subscribe(data => {
+      this.api.update(this.name,this.entity.id,this.entity).then(data => {
         this.navCtrl.pop();
+      }).catch(error =>{
+        this.handleError(error);
       });
     }
     else
     {
-      this.api.put('/'+this.name+'/',this.entity).subscribe(data => {
+      this.api.add(this.name,this.entity).then(data => {
         this.navCtrl.pop();
+      }).catch(error =>{
+        this.handleError(error);
       });
     }
   }
-  
-  private name;
-  private schema;
-  private entity;
-  private edit;
+
+  handleError(error){
+    console.log(error);
+  }
+
 
 }

@@ -1,26 +1,20 @@
-import { AuthProvider } from './../providers/auth/auth';
-import { Component } from '@angular/core';
-import { Platform, NavController } from 'ionic-angular';
-import { StatusBar } from '@ionic-native/status-bar';
-import { SplashScreen } from '@ionic-native/splash-screen';
+import {Component} from '@angular/core';
+import {NavController, Platform} from 'ionic-angular';
+import {StatusBar} from '@ionic-native/status-bar';
+import {SplashScreen} from '@ionic-native/splash-screen';
 
 @Component({
   templateUrl: 'app.html'
 })
 export class MyApp {
   rootPage:any;
-  constructor(platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen,private authProvider: AuthProvider) {
+  constructor(platform: Platform,
+              statusBar: StatusBar,
+              splashScreen: SplashScreen) {
     platform.ready().then(() => {
-      this.authProvider.me().toPromise().then(user=>{
-        this.rootPage="ContactPage";
-        statusBar.styleDefault();
-        splashScreen.hide();
-      }).catch(error=>{
-        this.rootPage="LoginPage";
-        statusBar.styleDefault();
-        splashScreen.hide();
-  
-      })
+      statusBar.styleDefault();
+      splashScreen.hide();
+      this.rootPage="HomePage"
     });
   }
 }
