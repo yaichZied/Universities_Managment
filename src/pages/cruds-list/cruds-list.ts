@@ -27,6 +27,7 @@ import {AuthProvider} from "../../providers/auth/auth";
 export class CrudsListPage {
   public name;
   public list;
+  public structure;
   @ViewChild(ItemSliding) slidingItem;
   @ViewChild(Item) item;
   constructor(public loadingCtrl: LoadingController,
@@ -56,8 +57,14 @@ export class CrudsListPage {
         this.list=data;
         this.openAll();
       }).catch(error=>{
-        this.handleError(error);
-      });
+      this.handleError(error);
+    });
+    this.api.structure(this.name)
+      .then(data => {
+        this.structure=data;
+      }).catch(error=>{
+      this.handleError(error);
+    });
   }
 
 

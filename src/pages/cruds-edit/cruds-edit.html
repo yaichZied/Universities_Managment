@@ -19,9 +19,24 @@
                 </ion-list>
             </ng-container>
             </ng-container>
-            <ion-list *ngIf="!field.id&&!field.manyToOne&&!field.manyToMany&&!field.oneToMany&&!field.oneToOne&&(field.type=='long' || field.type=='integer'|| field.type=='double'|| field.type=='float')">
-                <ion-input type="number"  placeholder="{{field.name}}" [(ngModel)]="entity[field.name]"></ion-input>
-            </ion-list>
+          <ion-list *ngIf="!field.id&&!field.manyToOne&&!field.manyToMany&&!field.oneToMany&&!field.oneToOne&&(field.type=='long' || field.type=='integer'|| field.type=='double'|| field.type=='float')">
+            <ion-input type="number"  placeholder="{{field.name}}" [(ngModel)]="entity[field.name]"></ion-input>
+          </ion-list>
+          <ion-list *ngIf="!field.id&&!field.manyToOne&&!field.manyToMany&&!field.oneToMany&&!field.oneToOne&&(field.type=='day')">
+
+            <ion-item>
+              <ion-label>{{field.name}}</ion-label>
+              <ion-select [(ngModel)]="entity[field.name]" >
+                <ion-option value="0">Sunday</ion-option>
+                <ion-option value="1">Monday</ion-option>
+                <ion-option value="2">Tuesday</ion-option>
+                <ion-option value="3">Wednesday</ion-option>
+                <ion-option value="4">Thursday</ion-option>
+                <ion-option value="5">Friday</ion-option>
+                <ion-option value="6">Saturday</ion-option>
+              </ion-select>
+            </ion-item>
+          </ion-list>
             <ion-list *ngIf="!field.id&&!field.manyToOne&&!field.manyToMany&&!field.oneToMany&&!field.oneToOne&&field.type=='date'">
                 <ion-item>
                     <ion-label>{{field.name}}</ion-label>
