@@ -16,7 +16,7 @@ import {NavigationProvider} from "../../providers/navigation/navigation";
   templateUrl: 'admin-home.html',
 })
 export class AdminHomePage {
-  names=["course","pointing","timeSlot"]
+  names=["course","pointing","subject","block","floor","classRoom","department","level","subLevel","group","user","timeSlot","semester"]
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
               public auth:AuthProvider,

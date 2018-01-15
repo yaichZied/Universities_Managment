@@ -10,6 +10,7 @@ import {
   ToastController
 } from 'ionic-angular';
 import {NavigationProvider} from "../../providers/navigation/navigation";
+import {AuthProvider} from "../../providers/auth/auth";
 
 /**
  * Generated class for the CrudsListPage page.
@@ -33,7 +34,8 @@ export class CrudsListPage {
               public api : ApiProvider,
               public toastCtrl: ToastController,
               public navigation:NavigationProvider,
-              public navCtrl:NavController) {
+              public navCtrl:NavController,
+              public auth:AuthProvider) {
     this.name=navParams.get("name");
   }
 

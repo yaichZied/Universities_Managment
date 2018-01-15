@@ -24,22 +24,26 @@ export class NavigationProvider {
       console.log(user.authorities)
       if(user.authorities.indexOf("ROLE_ADMIN")>=0){
         console.log("AdminHomePage")
-        navCtrl.setRoot("AdminHomePage");
+        navCtrl.setRoot("AdminHomePage").then();;
         return;
       }
       if(user.authorities.indexOf("ROLE_TEACHER")>=0){
         console.log("TeacherHomePage")
-        navCtrl.setRoot("TeacherHomePage");
+        navCtrl.setRoot('CrudsListPage',{
+		  name : "course"
+		}).then();
         return;
       }
       if(user.authorities.indexOf("ROLE_STUDENT")>=0){
         console.log("AdminHomePage")
-        navCtrl.setRoot("AdminHomePage");
+        navCtrl.setRoot('CrudsListPage',{
+		  name : "course"
+		}).then();
         return;
       }
       if(user.authorities.indexOf("ROLE_POINTING")>=0){
         console.log("PointingAgentHomePage")
-        navCtrl.setRoot("PointingAgentHomePage");
+        navCtrl.setRoot("PointingAgentHomePage").then();;
         return;
       }
       console.log("Nothing")

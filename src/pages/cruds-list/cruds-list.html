@@ -8,6 +8,9 @@
 
   <ion-navbar>
     <ion-title>cruds-list</ion-title>
+    <ion-buttons (click)="auth.logout(navCtrl)" end>
+      <button ion-button icon-only><ion-icon name="log-out" ></ion-icon></button>
+    </ion-buttons>
   </ion-navbar>
 
 </ion-header>
